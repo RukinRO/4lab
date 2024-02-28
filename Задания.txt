@@ -1,0 +1,116 @@
+const array3 =
+[
+    { id: 1, isDone: true },
+    { id: 2, isDone: false },
+    { id: 3, isDone: true }
+];
+
+function filterByIsDone(arr)
+{
+    return arr.filter(item => item.isDone === true);
+}
+
+console.log(filterByIsDone(array3)); // Вывод: 1 и 3
+
+
+
+function findGreaterThan(arr, num)
+{
+    return arr.filter(element => element > num);
+}
+
+const array1 = [1, 4, 6, 3, 2];
+const numToCompare = 2;
+console.log(findGreaterThan(array1, numToCompare)); 
+
+
+
+function PloskiyArray(arr)
+{
+    return arr.reduce((flatArray, element) => {
+        return flatArray.concat(Array.isArray(element) ? PloskiyArray(element) : element);
+    }, []);
+}
+
+const array2 = [1, 4, [34, 1, 20], [6, [6, 12, 8], 6]];
+console.log(PloskiyArray(array2));
+
+Есть метод reduce для итерации по элементам массива arr.
+1ый аргумент flatArray представляет текущее состояние "плоского" массива,
+а 2ой аргумент element - текущий элемент массива, который обрабатывается.
+
+flatArray.concat(Array.isArray(element) ? PloskiyArray(element) : element) - для каждого элемента проверяется,
+является ли он массивом (Array.isArray(element)).
+Если да, то вызывается рекурсивно PloskiyArray(element) для обработки вложенного массива,
+и результат конкатенируется с текущим "плоским" массивом (flatArray).
+Если элемент не является массивом, он просто добавляется к "плоскому" массиву.
+По сути задание на рекурсию
+
+
+
+function FindZero(arr)
+{
+    arr.sort((a, b) => a - b); // Сортируем массив для удобства работы с указателями
+    let count = 0;
+
+    for (let left = 0, right = arr.length - 1; left < right;)
+    {
+        const sum = arr[left] + arr[right];
+
+        if (sum === 0)
+        {
+            count++;
+            left++;
+            right--;
+        }
+        else if (sum < 0) left++;
+        else right--;
+    }
+
+    return count;
+}
+
+console.log(FindZero([-7, 12, 4, 6, -4, -12, 0])); // Вывод: 2
+console.log(FindZero([-1, 2, 4, 7, -4, 1, -2])); // Вывод: 3
+console.log(FindZero([-1, 1, 0, 1])); // Вывод: 1
+console.log(FindZero([-1, 1, -1, 1])); // Вывод: 2
+console.log(FindZero([1, 1, 1, 0, -1])); // Вывод: 1
+console.log(FindZero([0, 0])); // Вывод: 1
+console.log(FindZero([])); // Вывод: 0
+
+
+
+function FindZero(arr)
+{
+    arr.sort((a, b) => a - b); // Сортируем массив для удобства работы с указателями
+    let count = 0;
+
+    for (let i = 0; i < arr.length - 2; i++)
+    {
+        let left = i + 1;
+        let right = arr.length - 1;
+
+        while (left < right)
+        {
+            const sum = arr[i] + arr[left] + arr[right];
+
+            if (sum === 0)
+            {
+                count++;
+                left++;
+                right--;
+            }
+            else if (sum < 0) left++;
+            else right--;
+        }
+    }
+    return count;
+}
+
+console.log(FindZero([-7, 12, 4, 6, -4, -12, 0])); // Вывод: 2
+console.log(FindZero([-1, 2, 4, 7, -4, 1, -2])); // Вывод: 0
+console.log(FindZero([-1, 1, 0, 1])); // Вывод: 1
+console.log(FindZero([-1, 1, -1, 1])); // Вывод: 0
+console.log(FindZero([1, 1, 1, 0, -1])); // Вывод: 1
+console.log(FindZero([0, 0])); // Вывод: 0
+console.log(FindZero([])); // Вывод: 0

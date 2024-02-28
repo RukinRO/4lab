@@ -1,0 +1,126 @@
+function* rndGenerator(n, m)
+{
+    while (true)
+    {
+        yield Math.floor(Math.random() * (m - n + 1) + n);
+    }
+}
+
+const rndgen = rndGenerator(1, 100);
+
+for (let i = 0; i < 5; i++)
+{
+    console.log(rndgen.next().value);
+}
+
+
+
+function* padovanGenerator()
+{
+    let a = 1, b = 1, c = 1;
+    while (true)
+    {
+        yield a;
+        const next = a + b;
+        a = b;
+        b = c;
+        c = next;
+    }
+}
+
+const generator = padovanGenerator();
+
+for (let i = 0; i < 10; i++)
+{
+    console.log(generator.next().value);
+}
+
+
+
+function* primeGenerator()
+{
+    let primes = [2]; // Создаём массив простых чисел с нач. значением 2
+    yield 2;
+
+    for (let number = 3; ; number += 2)
+    {
+        if (isPrime(number, primes))
+        {
+            primes.push(number);
+            yield number;
+        }
+    }
+}
+
+// Проверка, является ли число простым
+function isPrime(num, primes)
+{
+    for (const prime of primes)
+    {
+        if (prime * prime > num) break;
+        if (num % prime === 0) return false;
+    }
+    return true;
+}
+
+const generator = primeGenerator();
+
+for (let i = 0; i < 10; i++)
+{
+    console.log(generator.next().value);
+}
+
+
+
+function FindLetters(inputString)
+{
+    const charCountMap = new Map();
+
+    // Проходим по каждому символу в строке
+    for (const char of inputString)
+    {
+        // Пропускаем пробелы, чтобы считать только буквы
+        if (char !== ' ') // Увеличиваем счетчик для данной буквы
+            charCountMap.set(char, (charCountMap.get(char) || 0) + 1);
+    }
+
+    return charCountMap;
+}
+
+const inputString = "hello world";
+const result = FindLetters(inputString);
+
+console.log(result);
+
+
+
+function isPrime(num) // Проверка на простое число
+{
+    if (num < 2n) return false;
+
+    for (let i = 2n; i * i <= num; i++)
+    {
+        if (num % i === 0n) return false;
+    }
+    return true;
+}
+
+function getPrime(n) // Находим простые числа
+{
+    if (n <= 0) throw new Error("n должно быть больше 0");
+
+    let count = 0;
+    let candidate = 2n;
+
+    while (count < n)
+    {
+        if (isPrime(candidate)) count++;
+        if (count < n) candidate++;
+    }
+    return candidate;
+}
+
+const n = 5;
+const result = getPrime(n);
+
+console.log(result); // Вывод: 11n
